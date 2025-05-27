@@ -21,7 +21,15 @@ const ToDo = () => {
     };
     setTodoList((prev) => [...prev, newTodo]);
     inputRef.current.value = "";
-  };
+  }
+
+  const deleteToDo = (id)=>{
+    setTodoList((prvTodos)=>{
+     return prvTodos.filter((todo) =>todo.id !==id)
+    })
+  }
+
+  
 
   return (
     <div className="bg-white place-self-center w-11/12 max-w-md flex flex-col p-7 min-h-[550px] rounded-xl ">
@@ -59,6 +67,7 @@ const ToDo = () => {
               text={item.text}
               id={item.id}
               isComplete={item.isComplete}
+              deleteToDo = {deleteToDo}
             />
           );
         })}
