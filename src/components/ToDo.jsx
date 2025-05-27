@@ -3,7 +3,7 @@ import todo_icon from "../assets/todo_icon.png";
 import ToDoItems from "./ToDoItems";
 
 const ToDo = () => {
-  const [todolist, setTodoList] = useState([]);
+  const [todolist, setTodoList] = useState(localStorage.getItem("todos")? JSON.parse(localStorage.getItem("todos")) :[]);
 
   const inputRef = useRef();
 
@@ -41,7 +41,7 @@ const ToDo = () => {
   }
 
   useEffect(()=>{
-    console.log(todolist);
+    localStorage.setItem("todos", JSON.stringify(todolist))
   },[todolist])
 
   return (
