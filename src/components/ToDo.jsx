@@ -11,18 +11,32 @@ const ToDo = () => {
 
   const inputRef = useRef();
 
-  const add = () => {
+  const add = async () => {
     const inputText = inputRef.current.value.trim();
     if (!inputText) return;
 
     const newTodo = {
-      id: Date.now(),
-      text: inputText,
-      isComplete: false,
+      // id: Date.now(),
+      // text: inputText,
+      title: inputText,
+      Complete: false,
+    };
+
+    try {
+    const res = await axios.post("https://jsonplaceholder.typicode.com/todos", newTodo);
+
+    const addedTodo = {
+      id: res.data.id || Date.now(), // Fallback ID if API doesn't return one
+      text: res.data.title,
+      isComplete: res.data.completed,
     };
 
     setTodoList((prev) => [...prev, newTodo]);
     inputRef.current.value = "";
+  } 
+    catch (error){
+    console.error("Error adding todo:", error);
+    }
   };
 
   const deleteToDo = (id) => {
