@@ -39,24 +39,24 @@ const ToDo = () => {
 
   // Fetch todos on first load
   useEffect(() => {
-    axios
-      .get("https://jsonplaceholder.typicode.com/todos?_limit=10")
-      .then((res) => {
-        const formatted = res.data.map((item) => ({
-          id: item.id,
-          text: item.title,
-          isComplete: item.completed,
-        }));
+  const fetchTodos = async () => {
+    try {
+      const response = await axios.get("https://jsonplaceholder.typicode.com/todos?_limit=10");
+      const formatted = response.data.map((item) => ({
+        id: item.id,
+        text: item.title,
+        isComplete: item.completed,
+      }));
 
+      setTodoList(() => formatted);
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }
+  };
 
-        const offset = 10000;
-        
-        setTodoList(() => formatted);
-      })
-      .catch((err) => console.error("Fetch error:", err));
-  }, []);
+  fetchTodos(); // Call the async function
+}, []);
 
-  
   return (
     <div className="bg-white place-self-center w-11/12 max-w-md flex flex-col p-7 min-h-[550px] rounded-xl">
       {/* Title */}
